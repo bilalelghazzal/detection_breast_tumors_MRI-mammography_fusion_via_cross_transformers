@@ -1,8 +1,4 @@
-"""
-01_data_loading.py
-==================
-Water Potability — Chargement & exploration initiale des données.
-"""
+
 
 import pandas as pd
 import numpy as np
@@ -19,7 +15,6 @@ OUTPUT_DIR = PROJECT_ROOT / "outputs"
 
 
 def _resolve_input_csv() -> Path:
-    """Fichier attendu dans data/ ; sinon copie courante à côté des scripts (src/)."""
     in_data = DATA_DIR / "water_potability.csv"
     in_src = SRC_DIR / "water_potability.csv"
     if in_data.is_file():
@@ -27,7 +22,6 @@ def _resolve_input_csv() -> Path:
     if in_src.is_file():
         return in_src
     raise FileNotFoundError(
-        "Fichier water_potability.csv introuvable. "
         f"Attendu : {in_data} ou {in_src}"
     )
 
@@ -39,7 +33,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 # ─── 1. CHARGEMENT ────────────────────────────────────────────────────────────
 def load_data(path: str | Path) -> pd.DataFrame:
     df = pd.read_csv(path)
-    print(f"✅ Dataset chargé : {df.shape[0]} lignes × {df.shape[1]} colonnes")
+    print(f" Dataset chargé : {df.shape[0]} lignes × {df.shape[1]} colonnes")
     return df
 
 
@@ -66,7 +60,7 @@ def summarize(df: pd.DataFrame) -> None:
     print(f"   → Ratio Non-Potable / Potable : {ratio:.2f}  (déséquilibre à corriger)")
 
 
-# ─── 3. VISUALISATIONS EDA ────────────────────────────────────────────────────
+# ─── 3. VISUALISATIONS EDA ────────────────────
 def plot_eda(df: pd.DataFrame) -> None:
 
     # 3a. Distribution de la cible
@@ -82,7 +76,7 @@ def plot_eda(df: pd.DataFrame) -> None:
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "01_target_distribution.png", dpi=150)
     plt.close()
-    print("📊 Graphe target sauvegardé.")
+    print(" Graphe target sauvegardé.")
 
     # 3b. Box plots par variable × potabilité
     features = [c for c in df.columns if c != "Potability"]
@@ -100,7 +94,7 @@ def plot_eda(df: pd.DataFrame) -> None:
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "01_boxplots.png", dpi=150)
     plt.close()
-    print("📊 Box plots sauvegardés.")
+    print(" Box plots sauvegardés.")
 
     # 3c. Heatmap de corrélation
     plt.figure(figsize=(10, 8))
@@ -109,7 +103,7 @@ def plot_eda(df: pd.DataFrame) -> None:
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "01_correlation_heatmap.png", dpi=150)
     plt.close()
-    print("📊 Heatmap corrélation sauvegardée.")
+    print(" Heatmap corrélation sauvegardée.")
 
     # 3d. Histogrammes des features
     fig, axes = plt.subplots(rows, cols, figsize=(15, rows * 4))
@@ -123,8 +117,7 @@ def plot_eda(df: pd.DataFrame) -> None:
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "01_feature_distributions.png", dpi=150)
     plt.close()
-    print("📊 Histogrammes sauvegardés.")
-
+    print(" Histogrammes sauvegardés.")
 
 # ─── MAIN ─────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
@@ -134,4 +127,4 @@ if __name__ == "__main__":
     # Sauvegarder le raw pour la suite
     out_raw = DATA_DIR / "raw_loaded.csv"
     df.to_csv(out_raw, index=False)
-    print(f"\n✅ Données brutes sauvegardées → {out_raw}")
+    print(f" ''' Données brutes sauvegardées → {out_raw}")
